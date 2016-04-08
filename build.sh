@@ -1,7 +1,7 @@
 #!/bin/sh
 BASE_DIR=`pwd`
 JEMALLOC_PATH="$BASE_DIR/deps/jemalloc-3.3.1"
-LEVELDB_PATH="$BASE_DIR/deps/leveldb-1.18"
+LEVELDB_PATH="$BASE_DIR/deps/rocksdb"
 SNAPPY_PATH="$BASE_DIR/deps/snappy-1.1.0"
 
 if test -z "$TARGET_OS"; then
@@ -121,13 +121,13 @@ echo "JEMALLOC_PATH=$JEMALLOC_PATH" >> build_config.mk
 echo "SNAPPY_PATH=$SNAPPY_PATH" >> build_config.mk
 
 echo "CFLAGS=" >> build_config.mk
-echo "CFLAGS = -DNDEBUG -D__STDC_FORMAT_MACROS -Wall -O2 -Wno-sign-compare" >> build_config.mk
+echo "CFLAGS = -std=c++11 -DNDEBUG -D__STDC_FORMAT_MACROS -Wall -O2 -Wno-sign-compare" >> build_config.mk
 echo "CFLAGS += ${PLATFORM_CFLAGS}" >> build_config.mk
 echo "CFLAGS += -I \"$LEVELDB_PATH/include\"" >> build_config.mk
 
 echo "CLIBS=" >> build_config.mk
 echo "CLIBS += ${PLATFORM_CLIBS}" >> build_config.mk
-echo "CLIBS += \"$LEVELDB_PATH/libleveldb.a\"" >> build_config.mk
+echo "CLIBS += \"$LEVELDB_PATH/librocksdb.a\"" >> build_config.mk
 echo "CLIBS += \"$SNAPPY_PATH/.libs/libsnappy.a\"" >> build_config.mk
 
 
@@ -136,6 +136,7 @@ case "$TARGET_OS" in
 	;;
 	*)
 		echo "CLIBS += \"$JEMALLOC_PATH/lib/libjemalloc.a\"" >> build_config.mk
+		echo "CLIBS += -lz -lbz2" >> build_config.mk
 		echo "CFLAGS += -I \"$JEMALLOC_PATH/include\"" >> build_config.mk
 	;;
 esac

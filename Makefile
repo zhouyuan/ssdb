@@ -5,10 +5,10 @@ include build_config.mk
 
 all:
 	mkdir -p var var_slave
-	chmod u+x "${LEVELDB_PATH}/build_detect_platform"
+	#chmod u+x "${LEVELDB_PATH}/build_detect_platform"
 	chmod u+x deps/cpy/cpy
 	chmod u+x tools/ssdb-cli
-	cd "${LEVELDB_PATH}"; ${MAKE}
+	cd "${LEVELDB_PATH}"; ${MAKE} static_lib
 	cd src/util; ${MAKE}
 	cd src/net; ${MAKE}
 	cd src/client; ${MAKE}

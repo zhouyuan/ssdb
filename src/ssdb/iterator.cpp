@@ -10,9 +10,9 @@ found in the LICENSE file.
 #include "t_queue.h"
 #include "../util/log.h"
 #include "../util/config.h"
-#include "leveldb/iterator.h"
+#include "rocksdb/iterator.h"
 
-Iterator::Iterator(leveldb::Iterator *it,
+Iterator::Iterator(rocksdb::Iterator *it,
 		const std::string &end,
 		uint64_t limit,
 		Direction direction)
@@ -29,12 +29,12 @@ Iterator::~Iterator(){
 }
 
 Bytes Iterator::key(){
-	leveldb::Slice s = it->key();
+	rocksdb::Slice s = it->key();
 	return Bytes(s.data(), s.size());
 }
 
 Bytes Iterator::val(){
-	leveldb::Slice s = it->value();
+	rocksdb::Slice s = it->value();
 	return Bytes(s.data(), s.size());
 }
 
